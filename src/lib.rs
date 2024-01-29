@@ -60,7 +60,8 @@ pub fn seed_from_entropy(entropy: &[u8], password: &str) -> Result<[u8; 64], Err
 
     let mut seed = [0u8; 64];
 
-    pbkdf2::<Hmac<Sha512>>(entropy, salt.as_bytes(), 2048, &mut seed);
+    pbkdf2::<Hmac<Sha512>>(entropy, salt.as_bytes(), 2048, &mut seed)
+        .map_err(|_| Error::InvalidEntropy)?;
 
     salt.zeroize();
 
